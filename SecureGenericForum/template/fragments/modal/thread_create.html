@@ -1,0 +1,5 @@
+<form action = "/thread/create" id="form{{ action }}{{ id }}" method = "POST">
+    <input type="hidden" name="category_id" value="{{ category.category_id }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+    <textarea class="form-control" id="createThreadTextArea{{ id }}" name="name" rows="5"></textarea>
+ </form>

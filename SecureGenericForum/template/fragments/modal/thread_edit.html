@@ -1,0 +1,6 @@
+<form action = "/thread/rename" id="form{{ action }}{{ id }}" method = "POST">
+    <input type="hidden" name="thread_id" value="{{ id }}">
+    <input type="hidden" name="user_id" value="{{ thread.user_id }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+    <textarea class="form-control" id="editThreadTextArea{{ id }}" name="name" rows="5">{{ thread.name }}</textarea>
+ </form>

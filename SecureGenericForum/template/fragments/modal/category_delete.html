@@ -1,0 +1,5 @@
+<form action = "/category/delete" id="form{{ action }}{{ id }}" method = "POST">
+    Are you sure you want to delete?
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+    <input type="hidden" name="id" value="{{ id }}">
+</form>

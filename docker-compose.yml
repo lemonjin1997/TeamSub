@@ -1,0 +1,42 @@
+version: '3.4'
+
+services: 
+  mysql-db:
+    env_file:
+      - .env
+    image: "mysql/mysql-server"
+    ports: 
+      - "3306:3306"
+    volumes: 
+      - "./mysql_data:/var/lib/mysql"
+    restart: always
+    networks: 
+      - jenkins
+
+  flask-app:
+    env_file:
+      - .env
+    image: ${DOCKER_REGISTRY-}flask-app
+    build:
+      context: SecureGenericForum/
+      dockerfile: Dockerfile
+    environment:
+      - PYTHONUNBUFFERED=1
+      - VIRTUAL_HOST=justaforum.sitict.net
+      - VIRTUAL_PORT=5000
+      - FLASK_ENV=Development
+    ports: 
+      - "5000:5000"
+    expose: 
+      - 5000
+    volumes: 
+      - "./:/app"
+    depends_on: 
+      - "mysql-db"
+    networks:
+      - jenkins
+      
+networks:
+  jenkins:
+    driver: bridge
+    external: true

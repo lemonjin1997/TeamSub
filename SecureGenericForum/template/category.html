@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% include "fragments/header.html" %}
+    <script type="text/javascript" src="/static/js/RFC3610_crypto.js" defer></script>
+    <script type="text/javascript" src="/static/js/decrypt.js" defer></script>
+    <script type="text/javascript" src="/static/js/encrypt.js" defer></script>
+    <body>
+        {% include "fragments/navigation_bar.html" %}
+        <div class="container-fluid">
+            <div class="row">
+                <!-- CREATE -->
+                <div class="col">
+                    <h1> {{ category.name }} </h1>
+                    {% with id=1, action="Create", title="Create Thread", body_fragment="fragments/modal/thread_create.html" %}
+                        <button type="button" class="btn btn-success btn-sm" style="float:right" data-bs-toggle="modal" data-bs-target="#{{ action }}{{ id }}">
+                            Create
+                        </button>
+                        {% include "fragments/modal.html" %}
+                    {% endwith %}
+                </div>
+            </div>
+            {% include "fragments/error_message.html" %}
+            <div class="row-fluid">
+                <div class="list-group">
+                    {% for thread in threads %}
+                        <div class="list-group-item flex-column align-items-start">
+                            <!-- LINK -->
+                            <a href= "/thread/{{ thread.id }}" class="navbar navbar-expand-sm navbar-light bg-light">
+                                <h5 class="mb-1" style="width:60%; word-wrap:break-word">{{ thread.name }}</h5>
+                            </a>
+                            <div class="d-flex w-100 justify-content-between">
+                                <div class="d-flex w-100 justify-content-between">
+                                </div>
+                                <!-- UPDATE/DELETE -->
+                                <div>
+                                    {% if thread.modified_timestamp == thread.created_timestamp %}
+                                        <small>Created date: {{ thread.created_timestamp }}</small>
+                                    {% else %}
+                                        <small>Last edited: {{ thread.modified_timestamp }}</small>
+                                    {% endif %}
+                                    <div class="d-flex align-items-end justify-content-end">
+                                    {% if mod_flag or thread.user_id == user.id %}
+                                        {% with id=thread.id, action="Edit", title="Edit Thread", body_fragment="fragments/modal/thread_edit.html" %}
+                                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#{{ action }}{{ id }}">
+                                                Edit
+                                            </button>
+                                            {% include "fragments/modal.html" %}
+                                        {% endwith %}
+                                    {% endif %}
+                                    {% if mod_flag %}
+                                        {% with id=thread.id, action="Delete", title="Delete Thread", body_fragment="fragments/modal/thread_delete.html" %}
+                                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#{{ action }}{{ id }}">
+                                                Delete
+                                            </button>
+                                            {% include "fragments/modal.html" %}
+                                        {% endwith %}
+                                    {% endif %}
+                                    </div>
+                                </div>
+                            </div>     
+                        </div>  
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="row-fluid">
+                {% with path="category", body_fragment="fragments/pagination.html" %}
+                    {% include "fragments/pagination.html" %}
+                {% endwith %}
+            </div>
+        </div>
+    </body>
+</html>

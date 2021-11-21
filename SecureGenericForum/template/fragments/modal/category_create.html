@@ -1,0 +1,4 @@
+<form action = "/category/create" id="form{{ action }}{{ id }}" method = "POST">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+    <textarea class="form-control" id="createCategoryTextArea{{ id }}" name="name" rows="5"></textarea>
+ </form>

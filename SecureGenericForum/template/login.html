@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+{% include "fragments/header.html" %}
+<script type="text/javascript">
+    var csrf_token = "{{ csrf_token() }}";
+</script>
+<script src="https://www.google.com/recaptcha/api.js" defer></script>
+<script type="text/javascript" src="/static/js/RFC2945_login.js"></script>
+<script type="text/javascript" src="/static/js/login.js" defer></script>
+
+<body>
+    <form id="login-form" class="vh-100" method="POST" action="/login" style="background-color: #e6eaf0">
+        <div class="container h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-xl-9">
+                    <h1 class="text-black mb-4">Login</h1>
+                    {% include "fragments/flash_success.html" %}
+                    <div class="card" style="border-radius: 15px">
+                        <div class="card-body">
+                            <div class="row align-items-center py-3">
+                                <div class="col-md-3 ps-5">
+                                    <h6 class="mb-0">Email address</h6>
+                                </div>
+                                <div class="col-md-9 pe-5">
+                                    <input id="login-email" type="email" class="form-control form-control-lg"
+                                        name="email" placeholder="example@domain.com" />
+                                </div>
+                            </div>
+                            <hr class="mx-n3" />
+                            <div class="row align-items-center py-3">
+                                <div class="col-md-3 ps-5">
+                                    <h6 class="mb-0">Password</h6>
+                                </div>
+                                <div class="col-md-9 pe-5">
+                                    <input id="login-password" type="password" minlength="12"
+                                        class="form-control form-control-lg" />
+                                </div>
+                            </div>
+                            <input id="login-clientpub" name="login-clientpub" type="hidden" value="" />
+                            <input id="login-m1" name="login-m1" type="hidden" value="" />
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                            <hr class="mx-n3" />
+                            <div class="px-5 py-4 row">
+                                <div class="g-recaptcha" name="g-recaptcha"
+                                    data-sitekey="6LeVUygdAAAAAAnbiTHw_8uJW_7xFPjFdIyNAbRn">
+                                </div>
+                            </div>
+                            <hr class="mx-n3" />
+                            <div class="px-5 py-4 row">
+                                <div class="col">
+                                    <input id="login-submit" type="button" value="login" onclick="submitForm();"
+                                        class="btn btn-primary btn-lg">
+                                </div>
+                                <div class="col">
+                                    <a href="/register" class="button"><input id="register" type="button"
+                                            value="Register" class="btn btn-secondary btn-lg"></a>
+                                </div>
+                            </div>
+                            <hr class="mx-n3" />
+                            <div class="px-5 py-4">
+                                <a href="/reset" class="button"><input id="resetpassword" type="button" value="Reset"
+                                        class="btn btn-danger btn-lg">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</body>
+
+</html>

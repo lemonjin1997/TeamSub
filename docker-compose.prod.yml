@@ -1,0 +1,9 @@
+version: '3.4'
+
+services: 
+  flask-app:
+    volumes: 
+     - "/home/team-30/Team30-AY21:/app"
+    environment:
+      - FLASK_ENV=Production
+

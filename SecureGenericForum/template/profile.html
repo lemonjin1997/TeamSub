@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% include "fragments/header.html" %}
+    <body>
+        {% include "fragments/navigation_bar.html" %}
+        
+        <div class=container>
+            
+            <div style="margin: 5%"></div>
+            
+            <div class="row-fluid">
+                <div class="col-xs-2">
+                </div>
+                <!-- Check for user role == moderator and is user banned -->
+                {% if edit_flag == True %}
+                <form class="card mb-3 col-xs-8" method="POST" action="/user/rename" id="profileForm" enctype="multipart/form-data">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                    <img src="{{ url_for('static', filename=user.profile_image_uri) }}" style="max-width:200px; max-height: 200px;"
+                        class="card-img-top rounded mx-auto d-block" alt="profile_pic">
+                    <input type="hidden" name="id" value="{{ user.id }}">
+                    <div class="card-body">
+                        <input type="text" class="form-control" name="name" value="{{ user.name }}"></input>
+                        <p class="card-text"><small class="text-muted">
+                            {% if user.is_banned != True %}
+                            Status: Active
+                            {% else %}
+                            Status: Banned
+                            {% endif %}
+                        </small></p>
+                        <div class="input-group mb-3">
+                            <input type="file" class="form-control" id="inputGroupFile02" name="file" >
+                            <label class="input-group-text" for="inputGroupFile02">Upload</label>
+                        </div>
+                        <div class="small text-muted mt-2">Only .PNG files accepted. Max file size 1 MB</div>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Save changes</button>
+                </form>
+                {% else %}
+                <div class="card mb-3 col-xs-8">
+                    <img src="{{ url_for('static', filename=user.profile_image_uri) }}" style="max-width:200px; max-height: 200px;"
+                        class="card-img-top rounded mx-auto d-block" alt="profile_pic">
+                    <div class="card-body">
+                    <h5 class="card-title">{{ user.name }}</h5>
+                        <p class="card-text"><small class="text-muted">
+                            {% if user.is_banned != True %}
+                            Status: Active
+                            {% else %}
+                            Status: Banned
+                            {% endif %}
+                        </small></p>
+                    </div>
+                </div>      
+                {% endif %}
+                <div class="col-xs-2"></div>
+            </div>  
+
+            <div class="row-fluid">
+                {% if ban_flag == True %}
+                    {% if user.is_banned != True %}
+                    <form class="card mb-3 col-xs-8" method="POST" action="/moderator/ban" id="modBanForm">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                        <input type="hidden" name="id" value="{{ user.id }}">
+                        <button class="btn btn-danger float-end" type="submit" form="modBanForm">Ban User</button>
+                    </form>
+                    {% else %}
+                    <form class="card mb-3 col-xs-8" method="POST" action="/moderator/unban" id="modUnbanForm">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                        <input type="hidden" name="id" value="{{ user.id }}">
+                        <button class="btn btn-danger float-end" type="submit" form="modUnbanForm">Unban User</button>
+                    </form>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </body>
+</html>

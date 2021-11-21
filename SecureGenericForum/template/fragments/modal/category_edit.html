@@ -1,0 +1,6 @@
+<form action = "/category/rename" id="form{{ action }}{{ id }}" method = "POST">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+    <input type="hidden" name="id" value="{{ id }}">
+    <input type="hidden" name="category_id" value="{{ category.id }}">
+    <textarea class="form-control" id="editCategoryTextArea{{ id }}" name="name" rows="5">{{ category.name }}</textarea>
+ </form>
